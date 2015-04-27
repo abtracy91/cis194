@@ -6,3 +6,5 @@ Done as the first part of the [Learn Haskell Series] (https://github.com/bitemya
 
 
 [Class available online] (http://www.seas.upenn.edu/~cis194/spring13/lectures.html)
+
+I'm not necessarily following the Spring 13 version of the course.  I've started the Week 1 Homework from the most current class (Spring 15).
