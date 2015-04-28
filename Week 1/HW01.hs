@@ -42,23 +42,34 @@ doubleEveryOther (x:y:xs) = x : 2*y : doubleEveryOther xs
 doubleEveryOther [n] = [n]
 
 -- Exercise 4 -----------------------------------------
+--  Ex: sumDigits [10, 5, 18, 4] = 1 + 0 + 5 + 1 + 8 + 4 = 19
 
 -- Calculate the sum of all the digits in every Integer.
 sumDigits :: [Integer] -> Integer
-sumDigits = undefined
+sumDigits [] = 0
+sumDigits (x:xs) = sum (toDigits x) + sumDigits xs
+sumDigits [n] = n
 
 
 -- Exercise 5 -----------------------------------------
+--  Example: luhn 5594589764218858 = True
+--  Example: luhn 1234567898765432 = False
+
 
 -- Validate a credit card number using the above functions.
 luhn :: Integer -> Bool
-luhn = undefined
+luhn n = mod (sumDigits (doubleEveryOther (toRevDigits n))) 10 == 0
 
 -- Exercise 6 -----------------------------------------
+--  Example: hanoi 2 "a" "b" "c" == [("a","c"), ("a","b"), ("c","b")]
+--  Solution: Move all but the last disc from a to c, using b as temporary storage.
+--   Then, move the last disc from a to b.
+--   Finally, move all but the last disc from c to b, using a as temporary storage.
 
 -- Towers of Hanoi for three pegs
 type Peg = String
 type Move = (Peg, Peg)
 
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
-hanoi = undefined
+hanoi 0 _ _ _ = []
+hanoi n a b c = hanoi (n-1) a c b ++ [(a,b)] ++ hanoi (n-1) c b a

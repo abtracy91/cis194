@@ -47,19 +47,35 @@ ex3Tests = [ Test "doubleEveryOther test" testDoubleEveryOther
              [([4,9,5,5], [4,18,5,10]), ([0,0], [0,0])]]
 
 -- Exercise 4 -----------------------------------------
+--  Ex: sumDigits [10, 5, 18, 4] = 1 + 0 + 5 + 1 + 8 + 4 = 19
+
+testSumDigits :: ([Integer], Integer) -> Bool
+testSumDigits (n, d) = sumDigits n == d
 
 ex4Tests :: [Test]
-ex4Tests = []
+ex4Tests = [ Test "sumDigits test" testSumDigits
+             [([10, 5, 18, 4], 19)]]
 
 -- Exercise 5 -----------------------------------------
+--  Example: luhn 5594589764218858 = True
+--  Example: luhn 1234567898765432 = False
+
+testLuhn :: (Integer, Bool) -> Bool
+testLuhn (n, d) = luhn n == d
 
 ex5Tests :: [Test]
-ex5Tests = []
+ex5Tests = [ Test "luhn test" testLuhn
+             [(5594589764218858, True), (1234567898765432, False)]]
 
 -- Exercise 6 -----------------------------------------
+--  Example: hanoi 2 "a" "b" "c" == [("a","c"), ("a","b"), ("c","b")]
+
+testHanoi :: (Integer, Peg, Peg, Peg, [Move]) -> Bool
+testHanoi (n, p, q, r, d) = hanoi n p q r == d
 
 ex6Tests :: [Test]
-ex6Tests = []
+ex6Tests = [ Test "hanoi test" testHanoi
+             [(2, "a" :: Peg, "b" :: Peg, "c" :: Peg, [("a","c") :: Move, ("a","b") :: Move, ("c","b") :: Move])]]
 
 -- All Tests ------------------------------------------
 
