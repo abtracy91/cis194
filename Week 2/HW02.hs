@@ -22,29 +22,85 @@ colors = [Red, Green, Blue, Yellow, Orange, Purple]
 -- Exercise 1 -----------------------------------------
 
 -- Get the number of exact matches between the actual code and the guess
+--  Ex: exactMatches [Red, Blue, Green, Yellow] [Blue, Green, Yellow, Red] == 0
+--  Ex: exactMatches [Red, Blue, Green, Yellow] [Red, Purple, Green, Orange] == 2
+
+comparePeg :: Peg -> Peg -> Int
+comparePeg x y
+ | x == y = 1
+ | otherwise = 0
+
 exactMatches :: Code -> Code -> Int
-exactMatches = undefined
+exactMatches [] (_) = 0
+exactMatches (_) [] = 0
+exactMatches (x:xs) (y:ys) = comparePeg x y + exactMatches xs ys
+
+
+
+
 
 -- Exercise 2 -----------------------------------------
 
 -- For each peg in xs, count how many times is occurs in ys
+--  Ex: countColors [Red, Blue, Yellow, Purple] == [1, 0, 1, 1, 0, 1]
+--  Ex: countColors [Green, Blue, Green, Orange] == [0, 2, 1, 0, 1, 0]
+
+sumArray :: [Int] -> [Int] -> [Int]
+sumArray [] (_) = []
+sumArray (_) [] = []
+sumArray (x:xs) (y:ys) = (x + y) : sumArray xs ys
+
+countColors' :: [Int] -> Code -> [Int]
+countColors' [] (y) = countColors' [0, 0, 0, 0, 0, 0] (y)
+countColors' x [] = x
+countColors' x (y:ys)
+ | y == Red = countColors' (sumArray x [1,0,0,0,0,0]) ys
+ | y == Green = countColors' (sumArray x [0,1,0,0,0,0]) ys
+ | y == Blue = countColors' (sumArray x [0,0,1,0,0,0]) ys
+ | y == Yellow = countColors' (sumArray x [0,0,0,1,0,0]) ys
+ | y == Orange = countColors' (sumArray x [0,0,0,0,1,0]) ys
+ | y == Purple = countColors' (sumArray x [0,0,0,0,0,1]) ys
+ | otherwise = countColors' x ys
+
+
 countColors :: Code -> [Int]
-countColors = undefined
+countColors x = countColors' [] x
 
 -- Count number of matches between the actual code and the guess
+--  Example: matches [Red, Blue, Yellow, Orange] [Red, Orange, Orange, Blue] == 3
+
+matches' :: Int -> [Int] -> [Int] -> Int
+matches' n [] (_) = n
+matches' n (_) [] = n
+matches' n (a:as) (b:bs)
+ | (a > 0) && (b > 0) = matches' (n+1) ((a-1):as) ((b-1):bs)
+ | otherwise = matches' n as bs
+
 matches :: Code -> Code -> Int
-matches = undefined
+matches x y = matches' 0 (countColors x) (countColors y)
 
 -- Exercise 3 -----------------------------------------
 
 -- Construct a Move from a guess given the actual code
+--  Example: getMove [Red, Blue, Yellow, Orange] [Red, Orange, Orange, Blue] == 
+--	  Move [Red, Orange, Orange, Blue] 1 2
 getMove :: Code -> Code -> Move
-getMove = undefined
+getMove x y = Move y (exactMatches x y) ((matches x y) - 1)
 
 -- Exercise 4 -----------------------------------------
+--  Consistency: A Code is consistent with a Move if the Guess has the same number of exact and non-exact matches as the code.
+--  Example: isConsistent (Move [Red, Red, Blue, Green] 1 1) [Red, Blue, Yellow, Purple] == True
+--  Example: isConsistent (Move [Red, Red, Blue, Green] 1 1) [Red, Blue, Red, Purple] == False
+
+get1Int :: Move -> Int
+get1Int (Move _ int1 _) = int1
+
+get2Int :: Move -> Int
+get2Int (Move _ _ int2) = int2
+
 
 isConsistent :: Move -> Code -> Bool
-isConsistent = undefined
+isConsistent (Move mc em m) c = get1Int (getMove mc c) == em && get2Int (getMove mc c) == m
 
 -- Exercise 5 -----------------------------------------
 
