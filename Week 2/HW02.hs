@@ -103,9 +103,13 @@ isConsistent :: Move -> Code -> Bool
 isConsistent (Move mc em m) c = get1Int (getMove mc c) == em && get2Int (getMove mc c) == m
 
 -- Exercise 5 -----------------------------------------
+-- Takes a move(?) and a list of codes.  Returns a list of codes consistent with the move.
 
 filterCodes :: Move -> [Code] -> [Code]
-filterCodes = undefined
+filterCodes _ [] = []
+filterCodes move (x:xs)
+ | isConsistent move x = x : filterCodes move xs
+ | otherwise = filterCodes move xs
 
 -- Exercise 6 -----------------------------------------
 
@@ -121,3 +125,13 @@ solve = undefined
 
 fiveGuess :: Code -> [Move]
 fiveGuess = undefined
+
+
+
+
+
+
+
+
+
+
