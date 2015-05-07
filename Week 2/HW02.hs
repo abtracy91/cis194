@@ -113,8 +113,39 @@ filterCodes move (x:xs)
 
 -- Exercise 6 -----------------------------------------
 
+allPegs :: [Peg]
+allPegs = [Red,Green,Blue,Yellow,Orange,Purple]
+
+initCodes :: [Code]
+initCodes = [[Red],[Green],[Blue],[Yellow],[Orange],[Purple]]
+
+addPegCode :: Peg -> Code -> Code
+-- Adds a Peg to the beginning of a Code
+addPegCode p [] = [p]
+addPegCode p c = p : c
+
+addPegsCode :: [Peg] -> Code -> [Code]
+-- Adds each peg in a list of pegs to the beginning of a Code
+addPegsCode [] code = []
+addPegsCode pegs [] = [pegs]
+addPegsCode (x:xs) code = (addPegCode x code) : (addPegsCode xs code)
+
+merge :: [a] -> [a] -> [a]
+merge xs [] = xs
+merge [] ys = ys
+merge (x:xs) (y:ys) = x : y : merge xs ys
+
+-- Takes a list of Codes of length n-1, and returns a list of Codes of length n
+-- Input: all possible codes, length n-1; Output: all possible codes, length n;
+-- Solution: For each possible color, c, output += (Code c : input)
+allCodesHelper :: [Code] -> [Code]
+allCodesHelper [] = []
+allCodesHelper (x:xs) = merge (addPegsCode allPegs x) (allCodesHelper xs)
+
 allCodes :: Int -> [Code]
-allCodes = undefined
+allCodes 0 = []
+allCodes 1 = initCodes
+allCodes n = allCodesHelper (allCodes (n-1))
 
 -- Exercise 7 -----------------------------------------
 
