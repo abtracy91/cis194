@@ -148,6 +148,7 @@ allCodes 1 = initCodes
 allCodes n = allCodesHelper (allCodes (n-1))
 
 -- Exercise 7 -----------------------------------------
+-- I am stuck on this exercise... going to continue with the course and come back to it later.
 
 solve :: Code -> [Move]
 solve = undefined
