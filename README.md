@@ -10,10 +10,10 @@ Done as the first part of the [Learn Haskell Series] (https://github.com/bitemya
 
 Spring 13:
 -------------
-Week 1 (Introduction to Haskell)
-Week 4 (Higher-order programming and type inference)
+Week 1 (Introduction to Haskell)  
+Week 4 (Higher-order programming and type inference)  
 
 Spring 15:
 -------------
-Week 2
-Week 3
+Week 2  
+Week 3  
